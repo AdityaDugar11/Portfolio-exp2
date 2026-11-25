@@ -1,0 +1,32 @@
+---
+import '../styles/about-contact.css';
+
+const notes = [
+  ['AI & automation', 'I’ve been running language models locally with Ollama and wiring them into n8n workflows. I like seeing what happens when a model can look something up or hand a task to another tool.'],
+  ['Systems & software', 'Linux is where I explore what happens underneath an application. Python, FastAPI and PostgreSQL are some of the tools I’ve used to connect the pieces above it.'],
+  ['Creative technology', 'I’m interested in how a web page can tell a story. Lately I’ve been exploring scroll-driven motion, interactive interfaces and the point where an experiment starts to feel good to use.'],
+];
+---
+
+<section id="about" class="author-page" aria-labelledby="author-title">
+  <div class="content author-spread">
+    <figure class="author-print">
+      <img src="/art/aditya.webp" width="680" height="907" loading="lazy" decoding="async" alt="Aditya Dugar" />
+      <figcaption>Aditya Dugar</figcaption>
+    </figure>
+    <div class="author-notes">
+      <h2 id="author-title">A little about me.</h2>
+      <p>I’m studying Software Engineering at Jain University. Give me an unfamiliar app or a Linux machine and I’ll probably spend the afternoon figuring out what happens under the hood.</p>
+      <p>During my internship at <strong>GrooveIt</strong>, I worked on backend development, authentication and debugging. Reading other people’s code taught me to ask better questions about my own.</p>
+      <h3>In my notebook lately</h3>
+      <div class="author-index">
+        {notes.map(([title, text]) => (
+          <details>
+            <summary>{title}<span class="author-plus" aria-hidden="true"></span></summary>
+            <p>{text}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

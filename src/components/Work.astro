@@ -1,0 +1,56 @@
+---
+import { getProjects, profileUrl } from '../data/projects';
+import ProjectDrawing from './ProjectDrawing.astro';
+import '../styles/work.css';
+const projects = await getProjects();
+---
+<section class="work-section" id="work" aria-labelledby="work-title">
+  <div class="work-inner content">
+    <header class="work-heading">
+      <h2 id="work-title">Selected work<span class="work-flourish" aria-hidden="true">
+        <svg viewBox="0 0 54 40" fill="none"><path d="M5 30q5-9 10-20M17 32q9-11 19-16m-12 20 22-4" stroke="currentColor" stroke-linecap="round" stroke-width="3"/></svg>
+      </span></h2>
+      <a class="work-github" href={profileUrl} target="_blank" rel="noopener noreferrer">
+        View GitHub
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 15 10-10M6 5h9v9" /></svg>
+      </a>
+    </header>
+    {projects.length === 0 && <p class="work-empty">My project notes live on GitHub. You can browse the full collection there.</p>}
+    {[projects.slice(0, 3), projects.slice(3)].filter(group => group.length).map((group, groupIndex) => {
+      const GroupTag = groupIndex === 0 ? 'div' : 'details';
+      return <GroupTag class={groupIndex === 0 ? 'work-visible' : 'work-more'}>
+        {groupIndex > 0 && <summary class="work-more-toggle">
+          <span class="work-more-when-closed">See all {projects.length} projects</span>
+          <span class="work-more-when-open">Show fewer projects</span>
+          <span aria-hidden="true" class="work-toggle-symbol"></span>
+        </summary>}
+        <div class="work-grid">
+          {group.map(project => <article class="work-entry">
+            <details class="work-card">
+              <summary class="work-card-summary" aria-label={'Read project notes for ' + project.title}>
+                <span class:list={['work-cover', 'work-cover--' + project.paper]}>
+                  <ProjectDrawing drawing={project.drawing} />
+                </span>
+                <span class="work-card-body">
+                  <span class="work-category">{project.category}</span>
+                  <span class="work-card-title">{project.title}</span>
+                  <span class="work-card-description">{project.summary}</span>
+                  <span class="work-read">
+                    <span class="work-read-closed">Project notes</span>
+                    <span class="work-read-open">Close notes</span>
+                    <span aria-hidden="true" class="work-toggle-symbol"></span>
+                  </span>
+                </span>
+              </summary>
+              <div class="work-card-notes">
+                <p>{project.note}</p>
+                {project.tools.length > 0 && <p class="work-tools">{project.tools.join(' · ')}</p>}
+                <a class="work-source" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={'Open the ' + project.title + ' repository on GitHub'}>Read the repository <span aria-hidden="true">↗</span></a>
+              </div>
+            </details>
+          </article>)}
+        </div>
+      </GroupTag>;
+    })}
+  </div>
+</section>

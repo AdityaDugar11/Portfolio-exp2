@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+---
+<div class="desk">
+  <button class="computer-button" type="button" aria-label="Boot the notebook computer and explore Aditya’s interests" aria-haspopup="dialog" data-boot disabled>
+    <span class="boot-note">click to boot!
+      <svg viewBox="0 0 78 50" fill="none" aria-hidden="true"><path d="M71 3c-1 18-15 27-27 24-12-4-6-15 1-12 9 5-3 23-36 24m8-8L8 39l12 3" /></svg>
+    </span>
+    <img class="computer-art" src="/art/hero-computer.webp" width="1160" height="893" alt="A graphite sketch of a vintage desktop computer with a smiling lime-green screen, keyboard and wired mouse." fetchpriority="high" decoding="async" />
+    <svg class="desk-spark" viewBox="0 0 52 60" fill="none" aria-hidden="true"><path d="m23 3 3 17 14-7-10 13 18 6-19 3 4 17-12-14-13 12 7-18-12-4 15-5Z" /></svg>
+  </button>
+  <dialog class="terminal" aria-labelledby="terminal-title">
+    <header class="terminal-head">
+      <span><Icon name="terminal" size={17} /> aditya@notebook</span>
+      <form method="dialog"><button type="submit" aria-label="Close terminal" autofocus><Icon name="close" size={19} /></button></form>
+    </header>
+    <div class="terminal-inner">
+      <h2 id="terminal-title">Inside my computer<span aria-hidden="true">_</span></h2>
+      <p>Pick a command to look around.</p>
+      <div class="commands" aria-label="Notebook commands">
+        <button type="button" data-command="whoami" aria-pressed="true">whoami</button>
+        <button type="button" data-command="stack" aria-pressed="false">ls tools</button>
+        <button type="button" data-command="lab" aria-pressed="false">cat lab.txt</button>
+      </div>
+      <div class="command-output" role="status" aria-live="polite" aria-atomic="true">
+        <code id="prompt-line">$ whoami</code>
+        <p id="command-text">Aditya Dugar. Software engineering student at Jain University. Usually somewhere between a Linux terminal and an unfinished experiment.</p>
+      </div>
+    </div>
+  </dialog>
+</div>
+<script>
+  const desk = document.querySelector<HTMLElement>('.desk');
+  const launch = desk?.querySelector<HTMLButtonElement>('[data-boot]');
+  const terminal = desk?.querySelector<HTMLDialogElement>('dialog');
+  if (launch && terminal) {
+    launch.disabled = false;
+    launch.addEventListener('click', () => terminal.showModal());
+    terminal.addEventListener('click', (event) => {
+      const bounds = terminal.getBoundingClientRect();
+      if (event.target === terminal && (event.clientX < bounds.left || event.clientX > bounds.right || event.clientY < bounds.top || event.clientY > bounds.bottom)) terminal.close();
+    });
+    const notes: Record<string, string> = {
+      whoami: 'Aditya Dugar. Software engineering student at Jain University. Usually somewhere between a Linux terminal and an unfinished experiment.',
+      stack: 'Python and TypeScript for building. FastAPI and React for the web. n8n and ComfyUI for workflows. Ollama for running models locally.',
+      lab: 'A question I keep coming back to: what can a small model do on my own machine? I’m experimenting with local assistants, retrieval and the tools that connect them.'
+    };
+    const buttons = [...terminal.querySelectorAll<HTMLButtonElement>('[data-command]')];
+    for (const button of buttons) {
+      button.addEventListener('click', () => {
+        for (const other of buttons) other.setAttribute('aria-pressed', String(button === other));
+        terminal.querySelector<HTMLElement>('#prompt-line')!.textContent = '$ ' + button.textContent;
+        terminal.querySelector<HTMLElement>('#command-text')!.textContent = notes[button.dataset.command!];
+      });
+    }
+  }
+</script>

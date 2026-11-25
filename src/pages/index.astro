@@ -1,0 +1,110 @@
+---
+import '../styles/notebook.css';
+import Icon from '../components/Icon.astro';
+import Desk from '../components/Desk.astro';
+import Work from '../components/Work.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+const nav = [{name:'Home', id:'notebook'}, {name:'Work', id:'work'}, {name:'About', id:'about'}];
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f9f9f5" />
+    <title>Aditya Dugar — Engineering Notebook</title>
+    <meta name="description" content="Aditya Dugar’s personal engineering notebook. Explore projects in AI, software and automation, notes from Jain University and GrooveIt, and ways to get in touch." />
+    <meta property="og:title" content="Aditya Dugar — Engineering Notebook" />
+    <meta property="og:description" content="A pencil-drawn portfolio of software, AI and automation projects." />
+    <meta property="og:image" content={new URL('/art/hero-computer.webp', Astro.site).href} />
+    <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+    <link rel="preload" href="/fonts/kalam.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/caveat.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <div class="book">
+      <div class="binding" aria-hidden="true"></div>
+      <header class="masthead" id="masthead">
+        <div class="content mast-inner">
+          <a class="brand" href="#notebook" aria-label="Aditya’s Notebook, home">
+            <span class="book-icon"><Icon name="notebook" size={35} /></span>
+            <span>Aditya’s Notebook</span>
+          </a>
+          <nav aria-label="Main navigation" class="main-nav">
+            {nav.map(({name,id}) => <a href={'#'+id} class="nav-link" aria-current={id === 'notebook' ? 'location' : undefined}>{name}</a>)}
+            <a class="hello-button" href="#contact"><span>Say hello</span><Icon name="plane" size={17} /></a>
+          </nav>
+        </div>
+      </header>
+      <main id="main">
+        <section class="hero" id="notebook" aria-labelledby="name">
+          <div class="content hero-inside">
+            <div class="hero-text">
+              <h1 id="name">
+                <span class="greeting">Hey there, I’m
+                  <svg viewBox="0 0 38 33" aria-hidden="true"><path d="m4 26 7-13m5 9 12-9m-8 17 13-3" /></svg>
+                </span>
+                <span class="signature">Aditya <span class="marked">Dugar<span class="name-period">.</span>
+                  <svg class="name-underline" viewBox="0 0 243 15" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9c61-5 143-8 235-5M16 13c54-4 150-8 210-5" /></svg>
+                </span></span>
+              </h1>
+              <p class="hero-intro">I’m a software engineering student at Jain University, exploring <strong>AI, automation</strong> and the systems behind the screen.</p>
+              <div class="hero-actions">
+                <a class="work-button" href="#work"><Icon name="folder" size={19} />Explore my work</a>
+                <a class="about-link" href="#about">A little about me<Icon name="up-right" size={17} /></a>
+              </div>
+            </div>
+            <Desk />
+          </div>
+          <div class="content hero-foot">
+            <a class="scroll-cue" href="#work"><Icon name="down" size={18} />Scroll to explore</a>
+            <span class="edition">Personal portfolio <i aria-hidden="true"></i> 2026</span>
+          </div>
+        </section>
+        <Work />
+        <About />
+      </main>
+      <Contact />
+    </div>
+    <script>
+      const links = [...document.querySelectorAll<HTMLAnchorElement>('.main-nav a')];
+      const chapters = links.map(link => document.getElementById(link.hash.slice(1))).filter((s): s is HTMLElement => !!s);
+      const masthead = document.getElementById('masthead');
+      let pending = false;
+      function updateLocation() {
+        const distance = document.documentElement.scrollHeight - innerHeight;
+        const fractionRead = distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0;
+        masthead?.style.setProperty('--read', String(fractionRead));
+        let chapter = chapters[0];
+        for (const section of chapters) {
+          if (section.getBoundingClientRect().top <= innerHeight * 0.36) chapter = section;
+        }
+        if (innerHeight + scrollY >= document.documentElement.scrollHeight - 3) chapter = chapters.at(-1);
+        for (const link of links) {
+          if ('#' + chapter?.id === link.hash) link.setAttribute('aria-current', 'location');
+          else link.removeAttribute('aria-current');
+        }
+        pending = false;
+      }
+      function queueUpdate() {
+        if (!pending) { pending = true; requestAnimationFrame(updateLocation); }
+      }
+      addEventListener('scroll', queueUpdate, { passive: true });
+      addEventListener('resize', queueUpdate);
+      updateLocation();
+      if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const observer = new IntersectionObserver(entries => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('in-view');
+              observer.unobserve(entry.target);
+            }
+          }
+        }, { threshold: 0.08 });
+        for (const el of document.querySelectorAll('.work-entry, .work-heading, #about figure, #about h2, #contact h2')) observer.observe(el);
+      }
+    </script>
+  </body>
+</html>
