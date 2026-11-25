@@ -1,0 +1,64 @@
+---
+import { profileUrl, type Project } from '../data/projects';
+import ProjectDrawing from './ProjectDrawing.astro';
+import '../styles/work.css';
+
+interface Props {
+  projects: (Project & { url: string })[];
+}
+const { projects } = Astro.props;
+---
+<section class="work-section page-sheet" id="experiments" data-page="2" aria-labelledby="experiments-title">
+  <div class="page-scroll">
+    <div class="page-inner">
+      <div class="binding" aria-hidden="true"></div>
+      <div class="work-inner content">
+        <header class="work-heading">
+          <h2 id="experiments-title">More builds<span class="work-flourish" aria-hidden="true">
+            <svg viewBox="0 0 54 40" fill="none"><path pathLength="1" d="M5 30q5-9 10-20M17 32q9-11 19-16m-12 20 22-4" stroke="currentColor" stroke-linecap="round" stroke-width="3"/></svg>
+          </span></h2>
+          <a class="work-github" href={profileUrl} target="_blank" rel="noopener noreferrer">
+            View GitHub
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 15 10-10M6 5h9v9" /></svg>
+          </a>
+        </header>
+        {projects.length === 0 ? (
+          <p class="work-empty">More experiments and prototypes live on my GitHub profile.</p>
+        ) : (
+          <div class="work-grid">
+            {projects.map(project => (
+              <article class="work-entry">
+                <details class="work-card">
+                  <summary class="work-card-summary" aria-label={'Read project notes for ' + project.title}>
+                    <span class:list={['work-cover', 'work-cover--' + project.paper]}>
+                      <ProjectDrawing drawing={project.drawing} />
+                    </span>
+                    <span class="work-card-body">
+                      <span class="work-category">{project.category}</span>
+                      <span class="work-card-title">{project.title}</span>
+                      <span class="work-card-description">{project.summary}</span>
+                      <span class="work-read">
+                        <span class="work-read-closed">Project notes</span>
+                        <span class="work-read-open">Close notes</span>
+                        <span aria-hidden="true" class="work-toggle-symbol"></span>
+                      </span>
+                    </span>
+                  </summary>
+                  <div class="work-card-notes">
+                    <p>{project.note}</p>
+                    {project.tools.length > 0 && <p class="work-tools">{project.tools.join(' · ')}</p>}
+                    <a class="work-source" href={project.url} target="_blank" rel="noopener noreferrer" aria-label={'Open the ' + project.title + ' repository on GitHub'}>Read the repository <span aria-hidden="true">↗</span></a>
+                  </div>
+                </details>
+              </article>
+            ))}
+          </div>
+        )}
+        <div class="page-turn-row">
+          <a class="page-turn-link" href="#lab" data-go-page="3">Inside the lab &amp; stack <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -3,31 +3,36 @@ import '../styles/about-contact.css';
 const email = 'adityadugar7@gmail.com';
 ---
 
-<footer id="contact" class="back-cover" aria-labelledby="contact-title">
-  <div class="content">
-    <div class="back-contact">
-      <div class="back-invitation">
-        <h2 id="contact-title">Drop me a <span>line.<svg aria-hidden="true" viewBox="0 0 160 21" fill="none"><path pathLength="1" d="M3 13 Q79 4 155 7 M17 17 Q90 8 144 11"/></svg></span></h2>
-        <p>Have a project in mind or a question about something in these pages? I’d love to hear from you.</p>
+<footer id="contact" class="back-cover page-sheet" data-page="6" aria-labelledby="contact-title">
+  <div class="page-scroll">
+    <div class="page-inner back-inner">
+      <div class="binding" aria-hidden="true"></div>
+      <div class="content back-content">
+        <div class="back-contact">
+          <div class="back-invitation">
+            <h2 id="contact-title">Drop me a <span>line.<svg aria-hidden="true" viewBox="0 0 160 21" fill="none"><path pathLength="1" d="M3 13 Q79 4 155 7 M17 17 Q90 8 144 11"/></svg></span></h2>
+            <p>Have a project in mind or a question about something in these pages? I’d love to hear from you.</p>
+          </div>
+          <div class="back-address">
+            <a class="back-email" href={'mailto:' + email}>{email}</a>
+            <button type="button" class="back-copy" data-copy-email={email} hidden>
+              <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 5.5h9v11h-9zM12.5 3H4v10"/></svg>
+              <span>Copy email</span>
+            </button>
+            <span class="back-status" role="status" aria-live="polite"></span>
+          </div>
+        </div>
+        <div class="back-foot">
+          <span class="back-sign">Aditya Dugar</span>
+          <nav aria-label="Social profiles">
+            <a href="https://github.com/AdityaDugar11">GitHub</a>
+            <a href="https://www.linkedin.com/in/adityadugar11/">LinkedIn</a>
+          </nav>
+          <a class="back-top" href="#notebook" data-go-page="0">Back to top
+            <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 15V3M3.5 8.5 9 3l5.5 5.5"/></svg>
+          </a>
+        </div>
       </div>
-      <div class="back-address">
-        <a class="back-email" href={'mailto:' + email}>{email}</a>
-        <button type="button" class="back-copy" data-copy-email={email} hidden>
-          <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M7.5 5.5h9v11h-9zM12.5 3H4v10"/></svg>
-          <span>Copy email</span>
-        </button>
-        <span class="back-status" role="status" aria-live="polite"></span>
-      </div>
-    </div>
-    <div class="back-foot">
-      <span class="back-sign">Aditya Dugar</span>
-      <nav aria-label="Social profiles">
-        <a href="https://github.com/AdityaDugar11">GitHub</a>
-        <a href="https://www.linkedin.com/in/adityadugar11/">LinkedIn</a>
-      </nav>
-      <a class="back-top" href="#notebook">Back to top
-        <svg viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M9 15V3M3.5 8.5 9 3l5.5 5.5"/></svg>
-      </a>
     </div>
   </div>
 </footer>

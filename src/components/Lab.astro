@@ -1,0 +1,55 @@
+---
+import '../styles/about-contact.css';
+
+const groups = [
+  {
+    name: 'AI & local models',
+    note: 'Running small models locally, testing retrieval pipelines, and connecting prompts to real tools.',
+    tools: ['Ollama', 'Gemini', 'Groq', 'ComfyUI'],
+  },
+  {
+    name: 'Automation & workflows',
+    note: 'Turning messy webhooks, forms, and media queues into dependable multi-step pipelines.',
+    tools: ['n8n', 'Slack', 'Airtable', 'Twilio'],
+  },
+  {
+    name: 'Backend & interfaces',
+    note: 'APIs, auth flows, databases, and interactive web pages built to feel responsive.',
+    tools: ['Python', 'FastAPI', 'TypeScript', 'React', 'PostgreSQL', 'Supabase'],
+  },
+];
+---
+<section class="lab-page page-sheet" id="lab" data-page="3" aria-labelledby="lab-title">
+  <div class="page-scroll">
+    <div class="page-inner">
+      <div class="binding" aria-hidden="true"></div>
+      <div class="content lab-spread">
+        <div class="lab-lead">
+          <h2 id="lab-title">Tools &amp; lab<span class="lab-spark" aria-hidden="true">
+            <svg viewBox="0 0 38 33" fill="none"><path pathLength="1" d="m4 26 7-13m5 9 12-9m-8 17 13-3" /></svg>
+          </span></h2>
+          <p class="lab-intro">I’m usually somewhere between a Linux terminal and an unfinished experiment, wiring models and backends together.</p>
+          <aside class="lab-card" aria-label="Current lab question">
+            <p class="lab-card-prompt">$ cat lab.txt</p>
+            <p class="lab-card-quote">“What can a small model do on my own machine? I’m experimenting with local assistants, retrieval and the tools that connect them.”</p>
+          </aside>
+        </div>
+        <div class="lab-groups">
+          {groups.map(group => (
+            <section class="lab-group">
+              <h3>{group.name}</h3>
+              <p>{group.note}</p>
+              <ul class="lab-tools">
+                {group.tools.map(tool => <li>{tool}</li>)}
+              </ul>
+            </section>
+          ))}
+          <div class="page-turn-row page-turn-row--left">
+            <a class="page-turn-link" href="#experience" data-go-page="4">Experience &amp; study <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

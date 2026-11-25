@@ -1,0 +1,52 @@
+---
+import '../styles/about-contact.css';
+
+const entries = [
+  {
+    place: 'GrooveIt',
+    role: 'Software Engineering Intern',
+    highlight: 'Backend, authentication & debugging',
+    summary: 'Worked on backend development, authentication flows, and debugging production issues. Reading other people’s code taught me to trace systems closely and ask sharper questions about my own.',
+    focus: ['Backend development', 'Authentication', 'Debugging'],
+  },
+  {
+    place: 'Jain University',
+    role: 'Software Engineering Student',
+    highlight: 'Systems, Linux & AI automation',
+    summary: 'Studying software engineering while spending afternoons pulling apart unfamiliar apps on Linux, building retrieval workflows, and exploring what small language models can handle locally.',
+    focus: ['Software engineering', 'Linux systems', 'Local AI & automation'],
+  },
+];
+---
+<section class="exp-page page-sheet" id="experience" data-page="4" aria-labelledby="exp-title">
+  <div class="page-scroll">
+    <div class="page-inner">
+      <div class="binding" aria-hidden="true"></div>
+      <div class="content exp-spread">
+        <header class="exp-head">
+          <h2 id="exp-title">Field notes</h2>
+          <p>Where I’ve learned to read systems closely and ship working software.</p>
+        </header>
+        <div class="exp-list">
+          {entries.map(entry => (
+            <article class="exp-entry">
+              <div class="exp-meta">
+                <h3>{entry.place}</h3>
+                <p class="exp-role">{entry.role}</p>
+              </div>
+              <div class="exp-body">
+                <p class="exp-highlight"><strong>{entry.highlight}</strong></p>
+                <p class="exp-summary">{entry.summary}</p>
+                <p class="exp-tags">{entry.focus.join(' · ')}</p>
+              </div>
+            </article>
+          ))}
+        </div>
+        <div class="page-turn-row page-turn-row--left">
+          <a class="page-turn-link" href="#about" data-go-page="5">A little about me <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+

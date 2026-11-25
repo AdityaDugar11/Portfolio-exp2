@@ -1,31 +1,31 @@
 ---
-import { getProjects, profileUrl } from '../data/projects';
+import { profileUrl, type Project } from '../data/projects';
 import ProjectDrawing from './ProjectDrawing.astro';
 import '../styles/work.css';
-const projects = await getProjects();
+
+interface Props {
+  projects: (Project & { url: string })[];
+  hasMore?: boolean;
+}
+const { projects, hasMore = false } = Astro.props;
 ---
-<section class="work-section" id="work" aria-labelledby="work-title">
-  <div class="work-inner content">
-    <header class="work-heading">
-      <h2 id="work-title">Selected work<span class="work-flourish" aria-hidden="true">
-        <svg viewBox="0 0 54 40" fill="none"><path d="M5 30q5-9 10-20M17 32q9-11 19-16m-12 20 22-4" stroke="currentColor" stroke-linecap="round" stroke-width="3"/></svg>
-      </span></h2>
-      <a class="work-github" href={profileUrl} target="_blank" rel="noopener noreferrer">
-        View GitHub
-        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 15 10-10M6 5h9v9" /></svg>
-      </a>
-    </header>
-    {projects.length === 0 && <p class="work-empty">My project notes live on GitHub. You can browse the full collection there.</p>}
-    {[projects.slice(0, 3), projects.slice(3)].filter(group => group.length).map((group, groupIndex) => {
-      const GroupTag = groupIndex === 0 ? 'div' : 'details';
-      return <GroupTag class={groupIndex === 0 ? 'work-visible' : 'work-more'}>
-        {groupIndex > 0 && <summary class="work-more-toggle">
-          <span class="work-more-when-closed">See all {projects.length} projects</span>
-          <span class="work-more-when-open">Show fewer projects</span>
-          <span aria-hidden="true" class="work-toggle-symbol"></span>
-        </summary>}
+<section class="work-section page-sheet" id="work" data-page="1" aria-labelledby="work-title">
+  <div class="page-scroll">
+    <div class="page-inner">
+      <div class="binding" aria-hidden="true"></div>
+      <div class="work-inner content">
+        <header class="work-heading">
+          <h2 id="work-title">Selected work<span class="work-flourish" aria-hidden="true">
+            <svg viewBox="0 0 54 40" fill="none"><path pathLength="1" d="M5 30q5-9 10-20M17 32q9-11 19-16m-12 20 22-4" stroke="currentColor" stroke-linecap="round" stroke-width="3"/></svg>
+          </span></h2>
+          <a class="work-github" href={profileUrl} target="_blank" rel="noopener noreferrer">
+            View GitHub
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 15 10-10M6 5h9v9" /></svg>
+          </a>
+        </header>
+        {projects.length === 0 && <p class="work-empty">My project notes live on GitHub. You can browse the full collection there.</p>}
         <div class="work-grid">
-          {group.map(project => <article class="work-entry">
+          {projects.map(project => <article class="work-entry">
             <details class="work-card">
               <summary class="work-card-summary" aria-label={'Read project notes for ' + project.title}>
                 <span class:list={['work-cover', 'work-cover--' + project.paper]}>
@@ -50,7 +50,12 @@ const projects = await getProjects();
             </details>
           </article>)}
         </div>
-      </GroupTag>;
-    })}
+        {hasMore && (
+          <div class="page-turn-row">
+            <a class="page-turn-link" href="#experiments" data-go-page="2">More builds &amp; prototypes <span aria-hidden="true">→</span></a>
+          </div>
+        )}
+      </div>
+    </div>
   </div>
 </section>

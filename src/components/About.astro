@@ -8,24 +8,29 @@ const notes = [
 ];
 ---
 
-<section id="about" class="author-page" aria-labelledby="author-title">
-  <div class="content author-spread">
-    <figure class="author-print">
-      <img src="/art/aditya.webp" width="680" height="907" loading="lazy" decoding="async" alt="Aditya Dugar" />
-      <figcaption>Aditya Dugar</figcaption>
-    </figure>
-    <div class="author-notes">
-      <h2 id="author-title">A little about me.</h2>
-      <p>I’m studying Software Engineering at Jain University. Give me an unfamiliar app or a Linux machine and I’ll probably spend the afternoon figuring out what happens under the hood.</p>
-      <p>During my internship at <strong>GrooveIt</strong>, I worked on backend development, authentication and debugging. Reading other people’s code taught me to ask better questions about my own.</p>
-      <h3>In my notebook lately</h3>
-      <div class="author-index">
-        {notes.map(([title, text]) => (
-          <details>
-            <summary>{title}<span class="author-plus" aria-hidden="true"></span></summary>
-            <p>{text}</p>
-          </details>
-        ))}
+<section id="about" class="author-page page-sheet" data-page="5" aria-labelledby="author-title">
+  <div class="page-scroll">
+    <div class="page-inner">
+      <div class="binding" aria-hidden="true"></div>
+      <div class="content author-spread">
+        <figure class="author-print">
+          <img src="/art/aditya.webp" width="680" height="907" loading="lazy" decoding="async" alt="Aditya Dugar" />
+          <figcaption>Aditya Dugar</figcaption>
+        </figure>
+        <div class="author-notes">
+          <h2 id="author-title">A little about me.</h2>
+          <p>I’m studying Software Engineering at Jain University. Give me an unfamiliar app or a Linux machine and I’ll probably spend the afternoon figuring out what happens under the hood.</p>
+          <p>During my internship at <strong>GrooveIt</strong>, I worked on backend development, authentication and debugging. Reading other people’s code taught me to ask better questions about my own.</p>
+          <h3>In my notebook lately</h3>
+          <div class="author-index">
+            {notes.map(([title, text]) => (
+              <details>
+                <summary>{title}<span class="author-plus" aria-hidden="true"></span></summary>
+                <p>{text}</p>
+              </details>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   </div>

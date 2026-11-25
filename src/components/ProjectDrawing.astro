@@ -11,85 +11,85 @@ const hatch = 'url(#work-hatch-' + drawing + ')';
   </defs>
   {drawing === 'schemes' && <>
     <g transform="rotate(-6 175 102)">
-      <path d="m84 78 117-29 55 75-119 37z" class="drawing-page" />
+      <path d="m84 78 117-29 55 75-119 37z" class="drawing-page" data-ink="1" pathLength="1" />
       <path d="m86 81 50 85 123-38-4-4-118 36z" fill={hatch} />
-      <path d="m77 72 116-30 59 75-118 36z" class="drawing-page" />
+      <path d="m77 72 116-30 59 75-118 36z" class="drawing-page" data-ink="1" pathLength="1" />
       <path d="m77 72 57 81 5 3 115-36-2-3-118 35z" fill={hatch} />
-      <path d="m75 64 117-32 57 77-119 37z" class="drawing-page" />
-      <path d="m77 66 52 78m-48-79 110-30 53 72" opacity=".45" stroke-width=".8"/>
+      <path d="m75 64 117-32 57 77-119 37z" class="drawing-page" data-ink="1" pathLength="1" />
+      <path d="m77 66 52 78m-48-79 110-30 53 72" opacity=".45" stroke-width=".8" data-ink="2" pathLength="1"/>
       <path d="m95 67 63-17 3 4-63 18z" fill="currentColor" stroke="none"/>
-      <path d="m101 77 38-10m-35 16 74-21m-71 26 55-14" opacity=".85"/>
-      <path d="m118 101 7-2 4 5-7 3zm6 10 7-2 4 5-7 2zm7 10 7-2 4 5-7 2z"/>
-      <path d="m118 100 5 2 5-11m-3 19 6 3 5-11m0 18 3 2 4-10" stroke-width="2.4"/>
-      <path d="m135 99 27-7m-21 16 35-10m-28 18 31-9m-23 12 18-5" stroke-width="1"/>
+      <path d="m101 77 38-10m-35 16 74-21m-71 26 55-14" opacity=".85" data-ink="2" pathLength="1"/>
+      <path d="m118 101 7-2 4 5-7 3zm6 10 7-2 4 5-7 2zm7 10 7-2 4 5-7 2z" data-ink="2" pathLength="1"/>
+      <path d="m118 100 5 2 5-11m-3 19 6 3 5-11m0 18 3 2 4-10" stroke-width="2.4" data-ink="3" pathLength="1"/>
+      <path d="m135 99 27-7m-21 16 35-10m-28 18 31-9m-23 12 18-5" stroke-width="1" data-ink="2" pathLength="1"/>
       <path d="m163 75 36-10 28 37-40 11z" stroke-dasharray="2 3" opacity=".6"/>
-      <path d="m176 89 6-11 19 4zm3 2 24-6m-21 9 5 5m0-6 5 5m1-7 5 6m0-7 5 5m-19 7 24-6m-23 9 25-7" stroke-width="1.8"/>
+      <path d="m176 89 6-11 19 4zm3 2 24-6m-21 9 5 5m0-6 5 5m1-7 5 6m0-7 5 5m-19 7 24-6m-23 9 25-7" stroke-width="1.8" data-ink="2" pathLength="1"/>
     </g>
-    <path d="M256 76c11-13 10-31 0-34-12-3-11 15 1 11 10-3 16-15 25-17m-7 1 8-2-3 7" stroke-width="1.25"/>
-    <text x="259" y="29" transform="rotate(-6 259 29)" class="drawing-label">eligible!</text>
-    <g stroke-width=".85" opacity=".5"><path d="m56 109 9-2m-4-3 2 8m204 35 9-2m-5-3 2 8m-164 10 6-2m-4-1 1 5"/></g>
+    <path d="M256 76c11-13 10-31 0-34-12-3-11 15 1 11 10-3 16-15 25-17m-7 1 8-2-3 7" stroke-width="1.25" data-ink="3" pathLength="1"/>
+    <text x="259" y="29" transform="rotate(-6 259 29)" class="drawing-label" data-ink-label>eligible!</text>
+    <g stroke-width=".85" opacity=".5"><path d="m56 109 9-2m-4-3 2 8m204 35 9-2m-5-3 2 8m-164 10 6-2m-4-1 1 5" data-ink="3" pathLength="1"/></g>
   </>}
   {drawing === 'media' && <>
     <g transform="rotate(-8 176 97)">
-      <path d="M43 132c48 20 64-9 111-20s67-2 85 11c8 5 14 5 18-1l28-43c5-13-17-30-37-34-14-3-25-2-42 0-55 8-67 55-119 52-9 0-17-1-26-5z" class="drawing-page"/>
-      <path d="M44 132c47 19 68-11 111-20s65-2 85 11c9 5 15 4 18-4 6-17-19-29-39-32-24-3-44 3-70 17-46 24-77 27-98 15" class="drawing-accent" stroke-width="1.3"/>
-      <path d="M61 92c25 11 55 5 82-17s48-30 71-32c36-4 74 8 72 32-1 8-5 15-13 21" stroke-width="2.1"/>
-      <path d="M44 132l17-40m4 8c33 10 54-3 81-23s50-29 72-29c27-1 54 5 61 20m-226 52c30 8 53 1 84-18 32-20 51-29 76-30 20-1 44 5 57 16" stroke-width="1"/>
-      <path d="M74 102c11 2 21 1 34-3l-8 19c-12 5-22 6-34 4zm45-7c9-5 17-11 27-17l-5 20c-8 5-17 10-28 15zm39-24c14-8 23-11 36-14l-4 20c-11 3-22 6-37 14zm49-16c12-1 22-1 34 2l-6 16c-12-2-21-2-32 0z" stroke-width="1.3"/>
-      <g class="drawing-accent" stroke-width="1"><path d="m69 118 12-8 4 4 11-9 5 7m16-3 8-12 4 3 11-15m20-1 10-15 8 1 9-11m23 10 9-9 6 4 6-5"/><circle cx="95" cy="106" r="1.7"/><circle cx="182" cy="65" r="2"/></g>
+      <path d="M43 132c48 20 64-9 111-20s67-2 85 11c8 5 14 5 18-1l28-43c5-13-17-30-37-34-14-3-25-2-42 0-55 8-67 55-119 52-9 0-17-1-26-5z" class="drawing-page" data-ink="1" pathLength="1"/>
+      <path d="M44 132c47 19 68-11 111-20s65-2 85 11c9 5 15 4 18-4 6-17-19-29-39-32-24-3-44 3-70 17-46 24-77 27-98 15" class="drawing-accent" stroke-width="1.3" data-ink="1" pathLength="1"/>
+      <path d="M61 92c25 11 55 5 82-17s48-30 71-32c36-4 74 8 72 32-1 8-5 15-13 21" stroke-width="2.1" data-ink="1" pathLength="1"/>
+      <path d="M44 132l17-40m4 8c33 10 54-3 81-23s50-29 72-29c27-1 54 5 61 20m-226 52c30 8 53 1 84-18 32-20 51-29 76-30 20-1 44 5 57 16" stroke-width="1" data-ink="2" pathLength="1"/>
+      <path d="M74 102c11 2 21 1 34-3l-8 19c-12 5-22 6-34 4zm45-7c9-5 17-11 27-17l-5 20c-8 5-17 10-28 15zm39-24c14-8 23-11 36-14l-4 20c-11 3-22 6-37 14zm49-16c12-1 22-1 34 2l-6 16c-12-2-21-2-32 0z" stroke-width="1.3" data-ink="2" pathLength="1"/>
+      <g class="drawing-accent" stroke-width="1"><path d="m69 118 12-8 4 4 11-9 5 7m16-3 8-12 4 3 11-15m20-1 10-15 8 1 9-11m23 10 9-9 6 4 6-5" data-ink="3" pathLength="1"/><circle cx="95" cy="106" r="1.7"/><circle cx="182" cy="65" r="2"/></g>
       <path d="M61 96c36 11 61-5 88-25 26-19 49-24 72-25 19 0 43 4 54 14M50 124c33 12 57 2 94-19s61-31 87-27c15 2 28 7 37 15" stroke-dasharray="3.7 6" stroke-width="2.6"/>
     </g>
-    <path d="M207 144c-4 13-20 16-33 13m4-3-7 3 5 4" stroke-width="1.15"/>
-    <text x="87" y="167" transform="rotate(-4 87 167)" class="drawing-label">render queue</text>
-    <g class="drawing-accent"><path d="m71 51 3-9 3 8 9 3-9 3-3 8-3-9-7-2zM272 145l2-5 1 5 5 2-5 1-1 4-2-4-4-1z"/></g>
+    <path d="M207 144c-4 13-20 16-33 13m4-3-7 3 5 4" stroke-width="1.15" data-ink="3" pathLength="1"/>
+    <text x="87" y="167" transform="rotate(-4 87 167)" class="drawing-label" data-ink-label>render queue</text>
+    <g class="drawing-accent"><path d="m71 51 3-9 3 8 9 3-9 3-3 8-3-9-7-2zM272 145l2-5 1 5 5 2-5 1-1 4-2-4-4-1z" data-ink="3" pathLength="1"/></g>
   </>}
   {drawing === 'retrieval' && <>
-    <path d="M78 112q27-20 72-10l13 12q25-30 75-35l13 42q-45 8-73 33l-11 1q-32-13-68 0z" class="drawing-page" stroke-width="2.1"/>
+    <path d="M78 112q27-20 72-10l13 12q25-30 75-35l13 42q-45 8-73 33l-11 1q-32-13-68 0z" class="drawing-page" stroke-width="2.1" data-ink="1" pathLength="1"/>
     <path d="m80 112 18 44q34-12 68-1m13 0c23-21 52-30 75-32l-3-3m-157 30 5 12q33-12 66 0l15-1c20-15 50-28 78-32l-4-7" fill={hatch}/>
-    <path d="M77 105q45-17 78-4l13 43c-20-10-49-16-74-5z" class="drawing-page"/>
-    <path d="M78 101q42-22 76-4l13 44q-34-16-74-4z" class="drawing-page"/>
+    <path d="M77 105q45-17 78-4l13 43c-20-10-49-16-74-5z" class="drawing-page" data-ink="1" pathLength="1"/>
+    <path d="M78 101q42-22 76-4l13 44q-34-16-74-4z" class="drawing-page" data-ink="1" pathLength="1"/>
     <path d="m154 97 11 11 4 34-2-1-13-44z" fill={hatch}/>
-    <path d="M166 108q23-30 66-36l15 43q-47 8-76 31z" class="drawing-page"/>
-    <path d="M162 102q32-30 69-33l12 43q-38 5-73 31z" class="drawing-page"/>
+    <path d="M166 108q23-30 66-36l15 43q-47 8-76 31z" class="drawing-page" data-ink="1" pathLength="1"/>
+    <path d="M162 102q32-30 69-33l12 43q-38 5-73 31z" class="drawing-page" data-ink="1" pathLength="1"/>
     <g opacity=".75" stroke-width="1">
-      <path d="M87 105q18-9 36-9m-34 13q29-11 56-4m-54 9q29-12 50-7m-48 11q28-11 42-7m-40 11q17-7 30-7m6 0 18 1m-48 11q31-12 50-7"/>
-      <path d="M176 103q24-20 46-23m-45 27q25-20 43-23m-41 26q27-19 45-21m-43 25q14-11 23-13"/>
+      <path d="M87 105q18-9 36-9m-34 13q29-11 56-4m-54 9q29-12 50-7m-48 11q28-11 42-7m-40 11q17-7 30-7m6 0 18 1m-48 11q31-12 50-7" data-ink="2" pathLength="1"/>
+      <path d="M176 103q24-20 46-23m-45 27q25-20 43-23m-41 26q27-19 45-21m-43 25q14-11 23-13" data-ink="2" pathLength="1"/>
     </g>
     <path d="M117 96c4-18 19-21 23-32" stroke-dasharray="3 4"/>
     <g transform="rotate(-7 176 57)">
-      <path d="M146 40q0-10 11-12l43-1q13 0 14 12l1 17q0 9-11 10l-24 1-16 12 2-13-10-1q-10-1-10-12z" class="drawing-accent" stroke-width="1.9"/>
-      <path d="m158 39 41 1m-41 7 31-1m-31 7 21 1" stroke-width="1.55"/>
+      <path d="M146 40q0-10 11-12l43-1q13 0 14 12l1 17q0 9-11 10l-24 1-16 12 2-13-10-1q-10-1-10-12z" class="drawing-accent" stroke-width="1.9" data-ink="2" pathLength="1"/>
+      <path d="m158 39 41 1m-41 7 31-1m-31 7 21 1" stroke-width="1.55" data-ink="3" pathLength="1"/>
     </g>
-    <path d="M221 43q14-9 24-4m-4-5 6 5-7 3" stroke-width="1.1"/>
-    <text x="248" y="46" class="drawing-label" transform="rotate(5 248 46)">answer</text>
-    <g opacity=".65"><path d="m66 65 2-6 2 6 6 2-6 2-2 5-2-5-5-2zm209 62 2-5 2 5 4 1-4 2-2 4-2-4-4-2z" /></g>
+    <path d="M221 43q14-9 24-4m-4-5 6 5-7 3" stroke-width="1.1" data-ink="3" pathLength="1"/>
+    <text x="248" y="46" class="drawing-label" transform="rotate(5 248 46)" data-ink-label>answer</text>
+    <g opacity=".65"><path d="m66 65 2-6 2 6 6 2-6 2-2 5-2-5-5-2zm209 62 2-5 2 5 4 1-4 2-2 4-2-4-4-2z" data-ink="3" pathLength="1"/></g>
   </>}
   {drawing === 'risk' && <>
-    <path d="M52 128 85 129l15-8 11 3 18-27 12 35 12-18h14m46 0h15l12-10 12 5 11-22 13 7 33-1" stroke-width="2"/>
-    <path d="M136 50c15 3 35-4 47-16 17 12 29 15 48 15-3 53-7 83-44 110-36-18-49-52-51-109z" class="drawing-accent" stroke-width="2.5"/>
+    <path d="M52 128 85 129l15-8 11 3 18-27 12 35 12-18h14m46 0h15l12-10 12 5 11-22 13 7 33-1" stroke-width="2" data-ink="1" pathLength="1"/>
+    <path d="M136 50c15 3 35-4 47-16 17 12 29 15 48 15-3 53-7 83-44 110-36-18-49-52-51-109z" class="drawing-accent" stroke-width="2.5" data-ink="1" pathLength="1"/>
     <path d="M145 57q19 1 37-12c12 8 24 12 39 12-2 42-7 65-35 89-28-19-37-44-41-89z" fill={hatch}/>
-    <path d="m155 94 19 19 32-44m-48 27 17 15 29-39" class="drawing-page" stroke-width="3.2"/>
-    <text x="67" y="74" class="drawing-label" transform="rotate(-7 67 74)">risk?</text>
+    <path d="m155 94 19 19 32-44m-48 27 17 15 29-39" class="drawing-page" stroke-width="3.2" data-ink="3" pathLength="1"/>
+    <text x="67" y="74" class="drawing-label" transform="rotate(-7 67 74)" data-ink-label>risk?</text>
   </>}
   {drawing === 'leads' && <>
-    <path d="m90 65 43 4-4 12-43-2zm49-14 37-1-2 14-39 1zm55-10 41 3-1 13-42-1z" class="drawing-page"/>
-    <path d="m104 72 10-.1m31-15 12-.2m43-8 16 1" />
-    <path d="m99 90 161-19-62 56-3 28-23 7 2-32z" class="drawing-page" stroke-width="2.4"/>
+    <path d="m90 65 43 4-4 12-43-2zm49-14 37-1-2 14-39 1zm55-10 41 3-1 13-42-1z" class="drawing-page" data-ink="1" pathLength="1"/>
+    <path d="m104 72 10-.1m31-15 12-.2m43-8 16 1" data-ink="2" pathLength="1"/>
+    <path d="m99 90 161-19-62 56-3 28-23 7 2-32z" class="drawing-page" stroke-width="2.4" data-ink="1" pathLength="1"/>
     <path d="m102 92 74 39-3 28 8-3 1-36z" fill={hatch}/>
     <path d="m105 91 143-16-69 48z" fill={hatch}/>
-    <path d="M224 143c18 0 26-10 23-22m-3 5 3-7 5 5"/>
-    <text x="237" y="107" class="drawing-label" transform="rotate(-5 237 107)">qualify</text>
+    <path d="M224 143c18 0 26-10 23-22m-3 5 3-7 5 5" data-ink="3" pathLength="1"/>
+    <text x="237" y="107" class="drawing-label" transform="rotate(-5 237 107)" data-ink-label>qualify</text>
   </>}
   {drawing === 'crop' && <>
-    <path d="M123 131c-7-54 48-63 104-100 10 61-16 118-89 107z" fill={hatch} stroke-width="2"/>
-    <path d="M115 156c25-35 66-65 100-111m-75 85 3-31m4 28 30-5m-17-9 4-29m3 23 27-6m-16-6 5-25m4 17 21-6"/>
-    <path d="M129 128c-5-38 24-58 56-73m-59 82 10-5" opacity=".6"/>
-    <path d="M93 71V56h18m119 96h18v-16" class="drawing-accent" stroke-width="2.6"/>
-    <text x="233" y="72" class="drawing-label" transform="rotate(4 233 72)">field note</text>
+    <path d="M123 131c-7-54 48-63 104-100 10 61-16 118-89 107z" fill={hatch} stroke-width="2" data-ink="1" pathLength="1"/>
+    <path d="M115 156c25-35 66-65 100-111m-75 85 3-31m4 28 30-5m-17-9 4-29m3 23 27-6m-16-6 5-25m4 17 21-6" data-ink="2" pathLength="1"/>
+    <path d="M129 128c-5-38 24-58 56-73m-59 82 10-5" opacity=".6" data-ink="2" pathLength="1"/>
+    <path d="M93 71V56h18m119 96h18v-16" class="drawing-accent" stroke-width="2.6" data-ink="3" pathLength="1"/>
+    <text x="233" y="72" class="drawing-label" transform="rotate(4 233 72)" data-ink-label>field note</text>
   </>}
   {drawing === 'source' && <>
-    <path d="m97 68 128-20 19 91-132 20z" class="drawing-page" stroke-width="2"/>
-    <path d="m99 85 130-20m-92 32-11 12 15 7m44-25 14 8-10 12m-21-22-14 36"/>
+    <path d="m97 68 128-20 19 91-132 20z" class="drawing-page" stroke-width="2" data-ink="1" pathLength="1"/>
+    <path d="m99 85 130-20m-92 32-11 12 15 7m44-25 14 8-10 12m-21-22-14 36" data-ink="2" pathLength="1"/>
     <circle cx="110" cy="73" r="2"/><circle cx="120" cy="72" r="2"/>
   </>}
 </svg>

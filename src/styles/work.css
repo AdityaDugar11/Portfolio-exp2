@@ -1,7 +1,10 @@
 .work-section {
-  padding-block: clamp(50px, 6vw, 92px);
   color: var(--ink, #282922);
   scroll-margin-top: 65px;
+}
+.work-inner {
+  padding-block: clamp(28px, 4vw, 56px);
+  margin-block: auto;
 }
 .work-section a { color: inherit; }
 .work-section summary { list-style: none; cursor: pointer; }
@@ -212,10 +215,70 @@
 @media (prefers-reduced-motion: no-preference) {
   .work-card[open] .work-card-notes,
   .work-more[open] > .work-grid { animation: work-unfold .28s ease-out; }
+
+  html.has-anim .work-heading:not(.in-view),
+  html.has-anim .work-more-toggle:not(.in-view) {
+    opacity: 0;
+    translate: 0 18px;
+  }
+  html.has-anim .work-heading,
+  html.has-anim .work-more-toggle {
+    transition: opacity .5s cubic-bezier(.16,1,.3,1), translate .55s cubic-bezier(.16,1,.3,1);
+  }
+  html.has-anim .work-heading:not(.in-view) .work-flourish path {
+    stroke-dasharray: 1.04;
+    stroke-dashoffset: 1.04;
+  }
+  html.has-anim .work-heading.in-view .work-flourish path {
+    stroke-dasharray: 1.04;
+    animation: work-ink-draw .56s .15s cubic-bezier(.16,1,.3,1) both;
+  }
+
+  html.has-anim .work-entry:nth-child(odd) { --card-tilt: -1.2deg; }
+  html.has-anim .work-entry:nth-child(even) { --card-tilt: 1.2deg; }
+  html.has-anim .work-entry:not(.in-view) {
+    opacity: 0;
+    translate: 0 26px;
+    rotate: var(--card-tilt, -1deg);
+  }
+  html.has-anim .work-entry {
+    transition: opacity .54s cubic-bezier(.16,1,.3,1), translate .6s cubic-bezier(.16,1,.3,1), rotate .6s cubic-bezier(.16,1,.3,1);
+  }
+  html.has-anim .work-entry:nth-child(3n+2) { transition-delay: .06s; }
+  html.has-anim .work-entry:nth-child(3n+3) { transition-delay: .12s; }
+
+  html.has-anim .work-entry:not(.in-view) [data-ink] {
+    stroke-dasharray: 1.04;
+    stroke-dashoffset: 1.04;
+    opacity: 0;
+  }
+  html.has-anim .work-entry:not(.in-view) [data-ink-label] {
+    opacity: 0;
+    translate: 0 4px;
+  }
+  html.has-anim .work-entry.in-view [data-ink] {
+    stroke-dasharray: 1.04;
+    animation: work-ink-draw .55s cubic-bezier(.16,1,.3,1) both;
+  }
+  html.has-anim .work-entry.in-view [data-ink='1'] { animation-delay: .08s; }
+  html.has-anim .work-entry.in-view [data-ink='2'] { animation-delay: .19s; }
+  html.has-anim .work-entry.in-view [data-ink='3'] { animation-delay: .3s; }
+  html.has-anim .work-entry.in-view [data-ink-label] {
+    animation: work-label-in .38s .32s cubic-bezier(.16,1,.3,1) both;
+  }
 }
 @keyframes work-unfold {
   from { opacity: .3; transform: translateY(-5px); }
   to { opacity: 1; transform: translateY(0); }
+}
+@keyframes work-ink-draw {
+  0% { stroke-dashoffset: 1.04; opacity: 0; }
+  10% { opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 1; }
+}
+@keyframes work-label-in {
+  from { opacity: 0; translate: 0 4px; }
+  to { opacity: 1; translate: 0 0; }
 }
 
 @media (max-width: 570px) {

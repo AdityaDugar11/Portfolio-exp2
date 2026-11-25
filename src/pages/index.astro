@@ -1,11 +1,28 @@
 ---
 import '../styles/notebook.css';
+import { getProjects } from '../data/projects';
 import Icon from '../components/Icon.astro';
 import Desk from '../components/Desk.astro';
 import Work from '../components/Work.astro';
+import Experiments from '../components/Experiments.astro';
+import Lab from '../components/Lab.astro';
+import Experience from '../components/Experience.astro';
 import About from '../components/About.astro';
 import Contact from '../components/Contact.astro';
-const nav = [{name:'Home', id:'notebook'}, {name:'Work', id:'work'}, {name:'About', id:'about'}];
+
+const allProjects = await getProjects();
+const featuredProjects = allProjects.slice(0, 3);
+const moreProjects = allProjects.slice(3);
+
+const pages = [
+  { name: 'Home', id: 'notebook', note: 'Cover & desk terminal', index: 0 },
+  { name: 'Selected Work', id: 'work', note: 'Featured AI & retrieval builds', index: 1 },
+  { name: 'More Builds', id: 'experiments', note: 'Prototypes & pipelines', index: 2 },
+  { name: 'Tools & Lab', id: 'lab', note: 'Local models, n8n & backend stack', index: 3 },
+  { name: 'Field Notes', id: 'experience', note: 'GrooveIt & Jain University', index: 4 },
+  { name: 'About', id: 'about', note: 'Portrait & notebook thoughts', index: 5 },
+  { name: 'Contact', id: 'contact', note: 'Drop me a line', index: 6 },
+];
 ---
 <!doctype html>
 <html lang="en">
@@ -21,90 +38,503 @@ const nav = [{name:'Home', id:'notebook'}, {name:'Work', id:'work'}, {name:'Abou
     <link rel="icon" href="/icon.svg" type="image/svg+xml" />
     <link rel="preload" href="/fonts/kalam.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/caveat.woff2" as="font" type="font/woff2" crossorigin />
+    <script is:inline>
+      document.documentElement.classList.add('is-paged');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('has-anim', 'is-loading');
+      }
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <div class="book">
-      <div class="binding" aria-hidden="true"></div>
+      <div class="notebook-loader" id="notebook-loader" aria-hidden="true">
+        <div class="binding loader-binding"></div>
+        <div class="loader-sheet">
+          <div class="loader-emblem">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path class="loader-book-fill" d="m5.5 3.7 13-.7q1.2 0 1.3 1.4l.5 15.7-14 1.1z" fill="var(--lime)" stroke="none" />
+              <path class="loader-book-stroke" pathLength="1" d="m5.5 3.7 13-.7q1.2 0 1.3 1.4l.5 15.7-14 1.1z" />
+              <path class="loader-book-detail" pathLength="1" d="m8.2 4 .6 16.3M3.6 7.3l3.7-.4m-3.5 5.2 3.7-.3m-3.6 5.3 3.9-.5m2.9-8.4 5.6-.3m-5.5 3.8 3.6-.2" />
+            </svg>
+          </div>
+          <p class="loader-title">Aditya’s Notebook</p>
+          <div class="loader-meter">
+            <div class="loader-track"><span class="loader-fill"></span></div>
+            <div class="loader-meta">
+              <span class="loader-stage" id="loader-stage">opening notebook...</span>
+              <span class="loader-pct" id="loader-pct">00%</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <header class="masthead" id="masthead">
         <div class="content mast-inner">
-          <a class="brand" href="#notebook" aria-label="Aditya’s Notebook, home">
+          <a class="brand" href="#notebook" data-go-page="0" aria-label="Aditya’s Notebook, home">
             <span class="book-icon"><Icon name="notebook" size={35} /></span>
             <span>Aditya’s Notebook</span>
           </a>
-          <nav aria-label="Main navigation" class="main-nav">
-            {nav.map(({name,id}) => <a href={'#'+id} class="nav-link" aria-current={id === 'notebook' ? 'location' : undefined}>{name}</a>)}
-            <a class="hello-button" href="#contact"><span>Say hello</span><Icon name="plane" size={17} /></a>
-          </nav>
+          <button type="button" class="menu-button" id="menu-toggle" aria-expanded="false" aria-controls="notebook-menu">
+            <span>Menu</span>
+            <Icon name="menu" size={18} />
+          </button>
         </div>
       </header>
-      <main id="main">
-        <section class="hero" id="notebook" aria-labelledby="name">
-          <div class="content hero-inside">
-            <div class="hero-text">
-              <h1 id="name">
-                <span class="greeting">Hey there, I’m
-                  <svg viewBox="0 0 38 33" aria-hidden="true"><path d="m4 26 7-13m5 9 12-9m-8 17 13-3" /></svg>
-                </span>
-                <span class="signature">Aditya <span class="marked">Dugar<span class="name-period">.</span>
-                  <svg class="name-underline" viewBox="0 0 243 15" preserveAspectRatio="none" aria-hidden="true"><path d="M3 9c61-5 143-8 235-5M16 13c54-4 150-8 210-5" /></svg>
-                </span></span>
-              </h1>
-              <p class="hero-intro">I’m a software engineering student at Jain University, exploring <strong>AI, automation</strong> and the systems behind the screen.</p>
-              <div class="hero-actions">
-                <a class="work-button" href="#work"><Icon name="folder" size={19} />Explore my work</a>
-                <a class="about-link" href="#about">A little about me<Icon name="up-right" size={17} /></a>
+
+      <div class="menu-backdrop" id="menu-backdrop" hidden></div>
+      <aside class="notebook-menu" id="notebook-menu" aria-label="Notebook pages" hidden>
+        <div class="menu-head">
+          <span class="menu-heading">Contents</span>
+          <button type="button" class="menu-close" id="menu-close" aria-label="Close menu">
+            <Icon name="close" size={19} />
+          </button>
+        </div>
+        <nav class="menu-pages" aria-label="Pages">
+          {pages.map(({ name, id, note, index }) => (
+            <a href={'#' + id} class="menu-item" data-go-page={index} aria-current={index === 0 ? 'page' : undefined}>
+              <span class="menu-item-name">{name}</span>
+              <span class="menu-item-note">{note}</span>
+            </a>
+          ))}
+        </nav>
+        <div class="menu-foot">
+          <div class="menu-socials">
+            <a href="https://github.com/AdityaDugar11" target="_blank" rel="noopener noreferrer">GitHub</a>
+            <a href="https://www.linkedin.com/in/adityadugar11/" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          </div>
+          <p class="menu-hint">Scroll horizontally or use arrow keys to turn pages</p>
+        </div>
+      </aside>
+
+      <div class="pages-stage" id="pages-stage" tabindex="-1">
+        <main id="main">
+          <section class="hero page-sheet is-active" id="notebook" data-page="0" aria-labelledby="name">
+            <div class="page-scroll">
+              <div class="page-inner hero-sheet">
+                <div class="binding" aria-hidden="true"></div>
+                <div class="content hero-inside">
+                  <div class="hero-text">
+                    <h1 id="name">
+                      <span class="greeting">Hey there, I’m
+                        <svg viewBox="0 0 38 33" aria-hidden="true"><path pathLength="1" d="m4 26 7-13m5 9 12-9m-8 17 13-3" /></svg>
+                      </span>
+                      <span class="signature">Aditya <span class="marked">Dugar<span class="name-period">.</span>
+                        <svg class="name-underline" viewBox="0 0 243 15" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M3 9c61-5 143-8 235-5M16 13c54-4 150-8 210-5" /></svg>
+                      </span></span>
+                    </h1>
+                    <p class="hero-intro">I’m a software engineering student at Jain University, exploring <strong>AI, automation</strong> and the systems behind the screen.</p>
+                    <div class="hero-actions">
+                      <a class="work-button" href="#work" data-go-page="1"><Icon name="folder" size={19} />Explore my work</a>
+                      <a class="about-link" href="#about" data-go-page="5">A little about me<Icon name="up-right" size={17} /></a>
+                    </div>
+                  </div>
+                  <Desk />
+                </div>
+                <div class="content hero-foot">
+                  <a class="scroll-cue" href="#work" data-go-page="1"><Icon name="down" size={18} />Turn to next page</a>
+                  <span class="edition">Personal portfolio <i aria-hidden="true"></i> 2026</span>
+                </div>
               </div>
             </div>
-            <Desk />
-          </div>
-          <div class="content hero-foot">
-            <a class="scroll-cue" href="#work"><Icon name="down" size={18} />Scroll to explore</a>
-            <span class="edition">Personal portfolio <i aria-hidden="true"></i> 2026</span>
-          </div>
-        </section>
-        <Work />
-        <About />
-      </main>
-      <Contact />
+          </section>
+          <Work projects={featuredProjects} hasMore={moreProjects.length > 0} />
+          <Experiments projects={moreProjects} />
+          <Lab />
+          <Experience />
+          <About />
+        </main>
+        <Contact />
+      </div>
     </div>
     <script>
-      const links = [...document.querySelectorAll<HTMLAnchorElement>('.main-nav a')];
-      const chapters = links.map(link => document.getElementById(link.hash.slice(1))).filter((s): s is HTMLElement => !!s);
-      const masthead = document.getElementById('masthead');
-      let pending = false;
-      function updateLocation() {
-        const distance = document.documentElement.scrollHeight - innerHeight;
-        const fractionRead = distance > 0 ? Math.min(1, Math.max(0, scrollY / distance)) : 0;
-        masthead?.style.setProperty('--read', String(fractionRead));
-        let chapter = chapters[0];
-        for (const section of chapters) {
-          if (section.getBoundingClientRect().top <= innerHeight * 0.36) chapter = section;
-        }
-        if (innerHeight + scrollY >= document.documentElement.scrollHeight - 3) chapter = chapters.at(-1);
-        for (const link of links) {
-          if ('#' + chapter?.id === link.hash) link.setAttribute('aria-current', 'location');
-          else link.removeAttribute('aria-current');
-        }
-        pending = false;
+      const root = document.documentElement;
+      const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const loader = document.getElementById('notebook-loader');
+      const stageEl = document.getElementById('loader-stage');
+      const pctEl = document.getElementById('loader-pct');
+
+      function finishLoaderImmediately() {
+        root.classList.remove('is-loading', 'is-leaving');
+        root.classList.add('is-ready');
       }
-      function queueUpdate() {
-        if (!pending) { pending = true; requestAnimationFrame(updateLocation); }
+
+      if (loader && root.classList.contains('is-loading') && !reducedMotion) {
+        const start = performance.now();
+        const minDuration = 820;
+        const maxDuration = 1900;
+        let targetProgress = 0.25;
+        let shownProgress = 0;
+        let done = false;
+        let skipRequested = false;
+
+        const fontsDone = document.fonts ? document.fonts.ready.catch(() => undefined) : Promise.resolve();
+        const heroImg = document.querySelector<HTMLImageElement>('.computer-art');
+        const imgDone = heroImg
+          ? (heroImg.complete
+              ? Promise.resolve()
+              : new Promise<void>(res => {
+                  heroImg.addEventListener('load', () => res(), { once: true });
+                  heroImg.addEventListener('error', () => res(), { once: true });
+                }))
+          : Promise.resolve();
+        const pageDone = document.readyState === 'complete'
+          ? Promise.resolve()
+          : new Promise<void>(res => addEventListener('load', () => res(), { once: true }));
+
+        fontsDone.then(() => { targetProgress = Math.max(targetProgress, 0.58); });
+        imgDone.then(() => { targetProgress = Math.max(targetProgress, 0.82); });
+        Promise.all([fontsDone, imgDone, pageDone]).then(() => { targetProgress = 1; });
+
+        const forceReadyTimer = setTimeout(() => { targetProgress = 1; }, maxDuration);
+
+        const skipLoader = () => {
+          if (done) return;
+          skipRequested = true;
+          targetProgress = 1;
+        };
+        loader.addEventListener('click', skipLoader);
+        addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && root.classList.contains('is-loading')) skipLoader();
+        }, { once: true });
+
+        function tickLoader(now: number) {
+          if (done) return;
+          const elapsed = now - start;
+          const timeCap = skipRequested ? 1 : Math.min(1, elapsed / minDuration);
+          const effectiveTarget = Math.min(targetProgress, timeCap);
+          shownProgress += (effectiveTarget - shownProgress) * (skipRequested ? 0.42 : 0.16);
+          if (effectiveTarget >= 0.999 && shownProgress > 0.988) shownProgress = 1;
+
+          const clamped = Math.max(0, Math.min(1, shownProgress));
+          const pct = Math.round(clamped * 100);
+          root.style.setProperty('--load-p', clamped.toFixed(4));
+          if (pctEl) pctEl.textContent = String(pct).padStart(2, '0') + '%';
+          if (stageEl) {
+            if (clamped < 0.36) stageEl.textContent = 'opening notebook...';
+            else if (clamped < 0.74) stageEl.textContent = 'inking sketches...';
+            else if (clamped < 1) stageEl.textContent = 'lining pages...';
+            else stageEl.textContent = 'ready.';
+          }
+
+          if (clamped >= 1) {
+            done = true;
+            clearTimeout(forceReadyTimer);
+            setTimeout(() => {
+              root.classList.remove('is-loading');
+              root.classList.add('is-leaving', 'is-ready');
+              setTimeout(() => {
+                root.classList.remove('is-leaving');
+              }, 460);
+            }, skipRequested ? 40 : 110);
+            return;
+          }
+          requestAnimationFrame(tickLoader);
+        }
+        requestAnimationFrame(tickLoader);
+      } else {
+        finishLoaderImmediately();
       }
-      addEventListener('scroll', queueUpdate, { passive: true });
-      addEventListener('resize', queueUpdate);
-      updateLocation();
-      if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        const observer = new IntersectionObserver(entries => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('in-view');
-              observer.unobserve(entry.target);
+
+      // Horizontal book-scroll controller with 3D open-book seam turns
+      const pagesStage = document.getElementById('pages-stage');
+      const sheets = [...document.querySelectorAll<HTMLElement>('.page-sheet')]
+        .sort((a, b) => Number(a.dataset.page) - Number(b.dataset.page));
+      const menuToggle = document.getElementById('menu-toggle') as HTMLButtonElement | null;
+      const menuClose = document.getElementById('menu-close') as HTMLButtonElement | null;
+      const menuEl = document.getElementById('notebook-menu');
+      const menuBackdrop = document.getElementById('menu-backdrop');
+      const menuItems = [...document.querySelectorAll<HTMLAnchorElement>('.menu-item')];
+      const pageIdToIdx = new Map(sheets.map((s, idx) => [s.id, idx]));
+
+      let currentPage = 0;
+      let scrollPending = false;
+      let wheelAccum = 0;
+      let wheelResetTimer: ReturnType<typeof setTimeout> | undefined;
+      let wheelCooldownUntil = 0;
+      let edgeDwellUntil = 0;
+      let lastEdgeDir = 0;
+      let touchStartY = 0;
+      let touchStartX = 0;
+
+      function clamp(val: number, min: number, max: number) {
+        return Math.min(max, Math.max(min, val));
+      }
+
+      function revealSheetElements(sheet: HTMLElement) {
+        const targets = sheet.querySelectorAll<HTMLElement>(
+          '.work-heading, .work-entry, .page-turn-row, .lab-lead, .lab-group, .exp-head, .exp-entry, figure, .author-notes > h2, .author-notes > p, .author-notes > h3, .author-index details, .back-invitation, .back-address'
+        );
+        for (const el of targets) el.classList.add('in-view');
+      }
+
+      function syncBookTurns() {
+        scrollPending = false;
+        if (!pagesStage) return;
+        const w = pagesStage.clientWidth || 1;
+        const sl = pagesStage.scrollLeft;
+        const nearest = clamp(Math.round(sl / w), 0, sheets.length - 1);
+
+        if (nearest !== currentPage) {
+          currentPage = nearest;
+          const activeId = sheets[nearest]?.id;
+          if (activeId) history.replaceState(null, '', '#' + activeId);
+        }
+
+        sheets.forEach((sheet, idx) => {
+          const offset = (idx * w - sl) / w;
+          const clampedOffset = clamp(offset, -1, 1);
+          const absOffset = Math.abs(clampedOffset);
+          const active = idx === nearest;
+
+          sheet.classList.toggle('is-active', active);
+          if (!reducedMotion && absOffset <= 1.05) {
+            sheet.style.setProperty('--turn', clampedOffset.toFixed(4));
+            sheet.style.setProperty('--turn-abs', absOffset.toFixed(4));
+            sheet.dataset.turn = clampedOffset < -0.004 ? 'left' : clampedOffset > 0.004 ? 'right' : 'center';
+          } else {
+            sheet.style.setProperty('--turn', '0');
+            sheet.style.setProperty('--turn-abs', '0');
+            sheet.dataset.turn = 'center';
+          }
+
+          if (absOffset < 0.72) revealSheetElements(sheet);
+
+          if (active) {
+            sheet.removeAttribute('inert');
+            sheet.removeAttribute('aria-hidden');
+          } else {
+            sheet.setAttribute('inert', '');
+            sheet.setAttribute('aria-hidden', 'true');
+          }
+        });
+
+        menuItems.forEach((item, idx) => {
+          if (idx === nearest) item.setAttribute('aria-current', 'page');
+          else item.removeAttribute('aria-current');
+        });
+      }
+
+      function queueBookSync() {
+        if (!scrollPending) {
+          scrollPending = true;
+          requestAnimationFrame(syncBookTurns);
+        }
+      }
+
+      function openMenu() {
+        if (!menuEl || !menuBackdrop || !menuToggle) return;
+        menuEl.hidden = false;
+        menuBackdrop.hidden = false;
+        requestAnimationFrame(() => {
+          menuEl.classList.add('is-open');
+          menuBackdrop.classList.add('is-open');
+        });
+        menuToggle.setAttribute('aria-expanded', 'true');
+        menuClose?.focus();
+      }
+
+      function closeMenu(restoreFocus = false) {
+        if (!menuEl || !menuBackdrop || !menuToggle || menuEl.hidden) return;
+        menuEl.classList.remove('is-open');
+        menuBackdrop.classList.remove('is-open');
+        menuToggle.setAttribute('aria-expanded', 'false');
+        const finishClose = () => {
+          menuEl.hidden = true;
+          menuBackdrop.hidden = true;
+          if (restoreFocus) menuToggle.focus();
+        };
+        if (reducedMotion) finishClose();
+        else setTimeout(finishClose, 260);
+      }
+
+      menuToggle?.addEventListener('click', () => {
+        if (menuEl?.hidden) openMenu();
+        else closeMenu(true);
+      });
+      menuClose?.addEventListener('click', () => closeMenu(true));
+      menuBackdrop?.addEventListener('click', () => closeMenu(true));
+
+      function goToPage(targetIdx: number, viaScroll = false, instant = false) {
+        if (!pagesStage) return;
+        const nextIdx = clamp(targetIdx, 0, sheets.length - 1);
+        const fromIdx = currentPage;
+        const toSheet = sheets[nextIdx];
+        if (!toSheet) return;
+
+        const toScroll = toSheet.querySelector<HTMLElement>('.page-scroll');
+        if (toScroll) {
+          if (nextIdx < fromIdx && viaScroll) {
+            toScroll.scrollTop = Math.max(0, toScroll.scrollHeight - toScroll.clientHeight);
+          } else {
+            toScroll.scrollTop = 0;
+          }
+        }
+
+        const w = pagesStage.clientWidth || 1;
+        currentPage = nextIdx;
+        toSheet.removeAttribute('inert');
+        toSheet.removeAttribute('aria-hidden');
+        revealSheetElements(toSheet);
+
+        pagesStage.scrollTo({
+          left: nextIdx * w,
+          behavior: instant || reducedMotion ? 'auto' : 'smooth',
+        });
+        queueBookSync();
+      }
+
+      function isBlockedContext() {
+        return (
+          root.classList.contains('is-loading') ||
+          !menuEl?.hidden ||
+          !!document.querySelector('dialog[open]')
+        );
+      }
+
+      function canAdvanceFromEdge(sheet: HTMLElement, dir: 1 | -1): boolean {
+        const scroller = sheet.querySelector<HTMLElement>('.page-scroll');
+        if (!scroller) return true;
+        const maxScroll = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+        if (maxScroll <= 4) return true;
+        const atTop = scroller.scrollTop <= 2;
+        const atBottom = scroller.scrollTop >= maxScroll - 3;
+        const atEdge = dir > 0 ? atBottom : atTop;
+        if (!atEdge) {
+          lastEdgeDir = 0;
+          return false;
+        }
+        const now = performance.now();
+        if (lastEdgeDir !== dir) {
+          lastEdgeDir = dir;
+          edgeDwellUntil = now + 220;
+          return false;
+        }
+        return now >= edgeDwellUntil;
+      }
+
+      pagesStage?.addEventListener('scroll', queueBookSync, { passive: true });
+      addEventListener('resize', () => {
+        if (!pagesStage) return;
+        pagesStage.scrollTo({ left: currentPage * (pagesStage.clientWidth || 1), behavior: 'auto' });
+        queueBookSync();
+      });
+
+      // Vertical mouse-wheel turns pages horizontally; horizontal trackpad swipe scrolls natively
+      pagesStage?.addEventListener('wheel', (e) => {
+        if (isBlockedContext()) return;
+        if (Math.abs(e.deltaX) > Math.abs(e.deltaY) * 1.1) return;
+
+        const activeSheet = sheets[currentPage];
+        if (!activeSheet) return;
+        const dir: 1 | -1 | 0 = e.deltaY > 0 ? 1 : e.deltaY < 0 ? -1 : 0;
+        if (dir === 0) return;
+
+        if (!canAdvanceFromEdge(activeSheet, dir)) {
+          wheelAccum = 0;
+          return;
+        }
+
+        const nextIdx = currentPage + dir;
+        if (nextIdx < 0 || nextIdx >= sheets.length) return;
+
+        e.preventDefault();
+        const now = performance.now();
+        if (now < wheelCooldownUntil) return;
+
+        wheelAccum += e.deltaY;
+        clearTimeout(wheelResetTimer);
+        wheelResetTimer = setTimeout(() => { wheelAccum = 0; }, 160);
+
+        if (Math.abs(wheelAccum) >= 34) {
+          wheelAccum = 0;
+          wheelCooldownUntil = now + (reducedMotion ? 140 : 520);
+          goToPage(nextIdx, true);
+        }
+      }, { passive: false });
+
+      // Vertical touch swipe at edge turns page horizontally (horizontal swipe handled natively)
+      pagesStage?.addEventListener('touchstart', (e) => {
+        if (e.touches.length !== 1) return;
+        touchStartY = e.touches[0].clientY;
+        touchStartX = e.touches[0].clientX;
+      }, { passive: true });
+
+      pagesStage?.addEventListener('touchend', (e) => {
+        if (isBlockedContext() || performance.now() < wheelCooldownUntil) return;
+        if (e.changedTouches.length !== 1) return;
+        const dy = touchStartY - e.changedTouches[0].clientY;
+        const dx = Math.abs(touchStartX - e.changedTouches[0].clientX);
+        if (Math.abs(dy) < 52 || dx > Math.abs(dy)) return;
+        const dir: 1 | -1 = dy > 0 ? 1 : -1;
+        const activeSheet = sheets[currentPage];
+        if (!activeSheet || !canAdvanceFromEdge(activeSheet, dir)) return;
+        const nextIdx = currentPage + dir;
+        if (nextIdx >= 0 && nextIdx < sheets.length) {
+          wheelCooldownUntil = performance.now() + 450;
+          goToPage(nextIdx, true);
+        }
+      }, { passive: true });
+
+      // Keyboard navigation
+      addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && menuEl && !menuEl.hidden) {
+          closeMenu(true);
+          return;
+        }
+        if (isBlockedContext()) return;
+        const tag = (e.target as HTMLElement | null)?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+
+        let dir: 1 | -1 | 0 = 0;
+        let forceHorizontal = false;
+        if (e.key === 'ArrowRight') { dir = 1; forceHorizontal = true; }
+        else if (e.key === 'ArrowLeft') { dir = -1; forceHorizontal = true; }
+        else if (e.key === 'PageDown' || e.key === 'ArrowDown') dir = 1;
+        else if (e.key === 'PageUp' || e.key === 'ArrowUp') dir = -1;
+        if (dir === 0) return;
+
+        const activeSheet = sheets[currentPage];
+        if (!activeSheet) return;
+        if (!forceHorizontal) {
+          const scroller = activeSheet.querySelector<HTMLElement>('.page-scroll');
+          if (scroller) {
+            const maxScroll = Math.max(0, scroller.scrollHeight - scroller.clientHeight);
+            if (maxScroll > 4) {
+              if (dir > 0 && scroller.scrollTop < maxScroll - 3) return;
+              if (dir < 0 && scroller.scrollTop > 2) return;
             }
           }
-        }, { threshold: 0.08 });
-        for (const el of document.querySelectorAll('.work-entry, .work-heading, #about figure, #about h2, #contact h2')) observer.observe(el);
-      }
+        }
+
+        const nextIdx = currentPage + dir;
+        if (nextIdx >= 0 && nextIdx < sheets.length) {
+          e.preventDefault();
+          goToPage(nextIdx, !forceHorizontal);
+        }
+      });
+
+      // Intercept internal page navigation links & menu items
+      document.addEventListener('click', (e) => {
+        const link = (e.target as HTMLElement | null)?.closest<HTMLAnchorElement>('a[data-go-page], a[href^="#"]');
+        if (!link) return;
+        const rawTarget = link.dataset.goPage;
+        let idx = rawTarget !== undefined ? Number(rawTarget) : undefined;
+        if (idx === undefined || Number.isNaN(idx)) {
+          const hashId = link.getAttribute('href')?.slice(1);
+          if (hashId && pageIdToIdx.has(hashId)) idx = pageIdToIdx.get(hashId);
+        }
+        if (idx !== undefined && idx >= 0 && idx < sheets.length) {
+          e.preventDefault();
+          if (menuEl && !menuEl.hidden) closeMenu(false);
+          goToPage(idx, false);
+        }
+      });
+
+      // Sync initial page from URL hash if present
+      const initialHash = location.hash.slice(1);
+      const initialIdx = pageIdToIdx.get(initialHash) ?? 0;
+      goToPage(initialIdx, false, true);
     </script>
   </body>
 </html>
